@@ -36,7 +36,7 @@ int main()
     while(1)
     {
         int izbor;
-        cout << "Menue" << endl;
+        cout << "Menu" << endl;
         cout << "1. Start game!" << endl;
         cout << "2. Teams" << endl;
         cout << "3. Scores" << endl;
