@@ -1,6 +1,8 @@
 {
     "files.associations": {
-        "iostream": "cpp",
-        "ostream": "cpp"
-    }
+        "string": "cpp",
+        "iosfwd": "cpp",
+        "iostream": "cpp"
+    },
+    "cmake.configureOnOpen": false
 }
