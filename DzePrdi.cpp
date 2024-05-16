@@ -17,7 +17,7 @@ using namespace std;
 
 fstream teme_za_igru;
 
-int generator()
+int generator() //brijjem da je problem jer se brzo izvrsi ono kaj je zlatko jendm pricao da dako se pre brzo izvrsava da ce nuditi iste opcije
 {
     srand(time(NULL));
     for (int i = 0; i < 7; i++)
