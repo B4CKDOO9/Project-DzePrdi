@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <fstream>
 #include <cmath>
 #include <string>
 #include <time.h>
@@ -14,6 +15,18 @@
 
 using namespace std;
 
+fstream teme_za_igru;
+
+int generator()
+{
+    srand(time(NULL));
+    for (int i = 0; i < 7; i++)
+    {
+        int random_broj = rand() % 7;
+        return random_broj;
+    }
+}
+
 bool izbor_bool(int &izbor)
 {
     if(izbor < 1 || izbor > 5)
@@ -23,6 +36,16 @@ bool izbor_bool(int &izbor)
 
 void ispisivanje_ploce()
 {
+    fstream teme_za_igru("Teme.txt",ios::app | ios::in);
+    
+    string *teme_za_iguru_ran_polje = new string[8];
+    for (int i = 0; i < 7; i++)     // upisivanje podataka iz ploce u polje sa kojem mozemo generirati random teme, treba osposobiti generator
+    {
+        getline(teme_za_igru, teme_za_iguru_ran_polje[i]);
+    }
+
+    teme_za_igru.close();
+
     int const br_Retka = 5;
     int const  br_Stupaca = 6;
     int const br_Tema = 6;
@@ -30,10 +53,10 @@ void ispisivanje_ploce()
                                              {400, 400, 400, 400, 400, 400},
                                              {600, 600, 600, 600, 600, 600},
                                              {800, 800, 800, 800, 800, 800},
-                                             {1000, 1000, 1000, 1000, 1000, 1000}};
+                                             {1000, 1000, 1000, 1000, 1000, 1000}}; //logika ce nesto sitno ici ako je ovo broj stupca j isti kao i odabrana tema i tada mozemo napravit provjeru da izvucemo pitanje za pravu temu
     for (int i = 0; i < br_Tema; i++)
     {
-        cout << setw(12) << "Tema ";
+        cout << setw(12) << teme_za_iguru_ran_polje[]; // resolve genrator printa samo jedno onak polje jebati breg mater
     }
 
     for (int i = 0; i < br_Retka; i++)
@@ -43,7 +66,7 @@ void ispisivanje_ploce()
         {
             cout << setw(10) << polje_money[i][j] << "$ ";
         }
-    }                           
+    }                          
 }
 
     int
@@ -63,6 +86,7 @@ void ispisivanje_ploce()
         while (1)
         {
             int izbor;
+            cout << endl;
             cout << "Menu" << endl;
             cout << "1. Start game!" << endl;
             cout << "2. Teams" << endl;
