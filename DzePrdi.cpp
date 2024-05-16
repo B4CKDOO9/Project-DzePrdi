@@ -3,9 +3,13 @@
 #include <fstream>
 #include <cmath>
 #include <string>
-#include <time.h>
 #include <windows.h>
 #include <iomanip>
+#include <vector>
+#include <ctime>
+#include <cstdlib>
+#include <random> 
+#include <chrono>
 
 #if defined(_WIN32)
 #define CLEAR system("cls");
@@ -17,14 +21,25 @@ using namespace std;
 
 fstream teme_za_igru;
 
-int generator() //brijjem da je problem jer se brzo izvrsi ono kaj je zlatko jendm pricao da dako se pre brzo izvrsava da ce nuditi iste opcije
+vector<int> shuffle_numbers()
 {
-    srand(time(NULL));
-    for (int i = 0; i < 7; i++)
+    vector<int> numbers;
+    for (int i = 1; i < 8; i++)
     {
-        int random_broj = rand() % 7;
-        return random_broj;
+        numbers.push_back(i);
     }
+
+    unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+    shuffle(numbers.begin(), numbers.end(), default_random_engine(seed));
+
+    return numbers;
+}
+
+int generator(vector<int> &numbers, int &index)
+{
+    int random_broj = numbers[index];
+    index = (index + 1) % 8;
+    return random_broj;
 }
 
 bool izbor_bool(int &izbor)
@@ -39,16 +54,21 @@ void ispisivanje_ploce()
     fstream teme_za_igru("Teme.txt",ios::app | ios::in);
     
     string *teme_za_iguru_ran_polje = new string[8];
-    for (int i = 0; i < 7; i++)     // upisivanje podataka iz ploce u polje sa kojem mozemo generirati random teme, treba osposobiti generator
+    for (int i = 1; i < 8; i++)     // upisivanje podataka iz ploce u polje sa kojem mozemo generirati random teme, treba osposobiti generator
     {
         getline(teme_za_igru, teme_za_iguru_ran_polje[i]);
     }
 
     teme_za_igru.close();
 
+    int index = 0;
     int const br_Retka = 5;
     int const  br_Stupaca = 6;
     int const br_Tema = 6;
+
+    vector<int> numeros = shuffle_numbers();
+
+
     int polje_money[br_Retka][br_Stupaca] = {{200, 200, 200, 200, 200, 200},
                                              {400, 400, 400, 400, 400, 400},
                                              {600, 600, 600, 600, 600, 600},
@@ -56,7 +76,7 @@ void ispisivanje_ploce()
                                              {1000, 1000, 1000, 1000, 1000, 1000}}; //logika ce nesto sitno ici ako je ovo broj stupca j isti kao i odabrana tema i tada mozemo napravit provjeru da izvucemo pitanje za pravu temu
     for (int i = 0; i < br_Tema; i++)
     {
-        cout << setw(12) << teme_za_iguru_ran_polje[]; // resolve genrator printa samo jedno onak polje jebati breg mater
+        cout << setw(22) << teme_za_iguru_ran_polje[generator(numeros , index)]; // resolve genrator printa samo jedno onak polje jebati breg mater
     }
 
     for (int i = 0; i < br_Retka; i++)
@@ -64,14 +84,14 @@ void ispisivanje_ploce()
         cout << endl;
         for (int j = 0; j < br_Stupaca; j++)
         {
-            cout << setw(10) << polje_money[i][j] << "$ ";
+            cout << setw(20) << polje_money[i][j] << "$ ";
         }
     }                          
 }
 
-    int
-    main()
+    int main()
     {
+        srand(time(NULL));
         cout << " .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------. " << endl;
         cout << "| .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |" << endl;
         cout << "| |  ________    | || |   ________   | || |  _________   | || |   ______     | || |  _______     | || |  ________    | || |     _____    | |" << endl;

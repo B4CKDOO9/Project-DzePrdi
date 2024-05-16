@@ -3,5 +3,5 @@ Movies
 Brain Rot
 Sport
 Geography
-Mathemathics
-What will the program write???
+Math
+program
