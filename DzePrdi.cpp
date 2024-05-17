@@ -19,6 +19,8 @@
 
 using namespace std;
 
+//mangupe jedan nisi nis napravio
+
 fstream teme_za_igru;
 
 vector<int> shuffle_numbers()
