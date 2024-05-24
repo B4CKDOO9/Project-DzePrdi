@@ -132,14 +132,22 @@ void ispisivanje_ploce()
             if (izbor == 2)
             {
                 cout << "izbor 2" << endl;
+                //tekstualna datoteka
             }
             if (izbor == 3)
             {
                 cout << "izbor 3" << endl;
+                //binarna datoteka
             }
             if (izbor == 4)
             {
                 cout << "izbor 4" << endl;
+                cout << "Jedan od natjecatelja bira kategoriju i iznos novaca za to pitanje." << endl
+                     << "Nakon postavljenog pitanja imate 15s da prvi stisnete svoju tipku i odaberete je li odgovor a,b ili c." << endl
+                     << "Osoba koja točno odgovori dobije iznos novaca i može birati sljedeću kategoriju i pitanje." << endl
+                     << "Nakon što odgovorite na neko pitanje to pitanje nestaje i više ga se ne može otvoriti." << endl
+                     << "Igra se dok sva pitanja na ploči nisu iskorištena odnosno odgovorena." << endl
+                     << "ZABAVITE SE!" << endl;
             }
             if (izbor == 5)
             {
