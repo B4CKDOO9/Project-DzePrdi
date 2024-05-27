@@ -49,12 +49,12 @@ bool izbor_bool(int &izbor)
     return false;
 }
 
-void ispisivanje_ploce()
+void ispisivanje_logika_ploce()
 {
     fstream teme_za_igru("Q&A/Teme.txt", ios::app | ios::in);
 
     string *teme_za_iguru_ran_polje = new string[8];
-    for (int i = 1; i < 8; i++) // upisivanje podataka iz ploce u polje sa kojem mozemo generirati random teme, treba osposobiti generator
+    for (int i = 0; i < 7; i++) // upisivanje podataka iz ploce u polje sa kojem mozemo generirati random teme, treba osposobiti generator
     {
         getline(teme_za_igru, teme_za_iguru_ran_polje[i]);
     }
@@ -86,6 +86,7 @@ void ispisivanje_ploce()
             cout << setw(20) << polje_money[i][j] << "$ ";
         }
     }
+
 }
 
 int main()
@@ -125,24 +126,24 @@ int main()
         }
         if (izbor == 1)
         {
-            ispisivanje_ploce();
+            ispisivanje_logika_ploce();
         }
         if (izbor == 2)
         {
+            cin.ignore();
             cout << "izbor 2" << endl;
-            // tekstualna datoteka
-            fstream datoteka;
+            // tekstualna datoteka 
+            fstream datotekaTimovi;
             string ispis, unos;
-            datoteka.open("Teams.txt", ios::in);
-            while (getline(datoteka, ispis))
+            datotekaTimovi.open("Scores&Teams/Teams.txt", ios::in);
+            while (getline(datotekaTimovi, ispis))
                 cout << ispis << endl;
-            datoteka.close();
+            datotekaTimovi.close();
             getline(cin, unos);
-            cout << endl;
-            datoteka.open("Teams.txt", ios::app);
-            datoteka << endl
-                     << unos;
-            datoteka.close();
+            cout << "PICKEEE" << endl;
+            datotekaTimovi.open("Scores&Teams/Teams.txt", ios::out | ios::app);
+            datotekaTimovi << unos << endl;
+            datotekaTimovi.close();
             
         }
         if (izbor == 3)
