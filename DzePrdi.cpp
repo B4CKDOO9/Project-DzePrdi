@@ -86,16 +86,19 @@ void ispisivanje_logika_ploce()
             cout << setw(20) << polje_money[i][j] << "$ ";
         }
     }
-
 }
 
 int main()
 {
     srand(time(NULL));
-
     // credit: https://www.asciiart.eu/text-to-ascii-art
-
-    cout << "▓█████▄ ▒███████▒▓█████  ██▓███   ██▀███  ▓█████▄  ██▓ ▐██▌" << endl;
+    cout << "  _______   ________   _______ .______   .______       _______   __   __   "<<endl;
+    cout << " |       \\ |       /  |   ____||   _  \\  |   _  \\     |      \\ |  | |  | " << endl;
+    cout << " |  .--.  |`---/  /   |  |__   |  |_)  | |  |_)  |    |  .--.  ||  | |  | " << endl;
+    cout << " |  |  |  |   /  /    |   __|  |   ___/  |      /     |  |  |  ||  | |  | " << endl;
+    cout << " |  '--'  |  /  /----.|  |____ |  |      |  |\\  \\----.|  '--'  ||  | |__|  " << endl;
+    cout<< " |_______/  /________||_______|| _|      | _|  `._____||_______/ |__| (__) " << endl;
+    /*cout << "▓█████▄ ▒███████▒▓█████  ██▓███   ██▀███  ▓█████▄  ██▓ ▐██▌" << endl;
     cout << "▒██▀ ██▌▒ ▒ ▒ ▄▀░▓█   ▀ ▓██░  ██▒▓██ ▒ ██▒▒██▀ ██▌▓██▒ ▐██▌" << endl;
     cout << "░██   █▌░ ▒ ▄▀▒░ ▒███   ▓██░ ██▓▒▓██ ░▄█ ▒░██   █▌▒██▒ ▐██▌" << endl;
     cout << "░▓█▄   ▌  ▄▀▒   ░▒▓█  ▄ ▒██▄█▓▒ ▒▒██▀▀█▄  ░▓█▄   ▌░██░ ▓██▒" << endl;
@@ -103,7 +106,7 @@ int main()
     cout << " ▒▒▓  ▒ ░▒▒ ▓░▒░▒░░ ▒░ ░▒▓▒░ ░  ░░ ▒▓ ░▒▓░ ▒▒▓  ▒ ░▓   ░▀▀▒" << endl;
     cout << " ░ ▒  ▒ ░░▒ ▒ ░ ▒ ░ ░  ░░▒ ░       ░▒ ░ ▒░ ░ ▒  ▒  ▒ ░ ░  ░" << endl;
     cout << "   ░      ░ ░       ░  ░            ░        ░     ░   ░   " << endl;
-    cout << " ░      ░                                  ░               " << endl;
+    cout << " ░      ░                                  ░               " << endl;*/
     while (1)
     {
         int izbor;
@@ -132,7 +135,7 @@ int main()
         {
             cin.ignore();
             cout << "izbor 2" << endl;
-            // tekstualna datoteka 
+            // tekstualna datoteka
             fstream datotekaTimovi;
             string ispis, unos;
             datotekaTimovi.open("Scores&Teams/Teams.txt", ios::in);
@@ -140,11 +143,10 @@ int main()
                 cout << ispis << endl;
             datotekaTimovi.close();
             getline(cin, unos);
-            cout << "PICKEEE" << endl;
+            cout << endl;
             datotekaTimovi.open("Scores&Teams/Teams.txt", ios::out | ios::app);
             datotekaTimovi << unos << endl;
             datotekaTimovi.close();
-            
         }
         if (izbor == 3)
         {
