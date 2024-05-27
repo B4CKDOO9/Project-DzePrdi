@@ -86,6 +86,15 @@ void ispisivanje_logika_ploce()
             cout << setw(20) << polje_money[i][j] << "$ ";
         }
     }
+    cout << endl;
+
+    int const izbor_retka = 5;
+    int const izbor_stupaca = 6;
+    int izbor_polja[izbor_retka][izbor_stupaca];
+    int izbor_teme;
+
+    cout << "Enter the topic you want from 1-6" << endl;
+    cin >> izbor_teme;
 }
 
 int main()
