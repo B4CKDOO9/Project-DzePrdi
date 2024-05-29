@@ -1,0 +1,7 @@
+GeneralKnowladgeOdg.txt
+MoviesOdg.txt
+BrainrotOdg.txt
+SportOdg.txt
+GeographyOdg.txt
+FunFactsOdg.txt
+CelebritiesOdg.txt
