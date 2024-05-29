@@ -1,7 +1,0 @@
-GeneralKnowladgePit.txt
-MoviesPit.txt
-BrainrotPit.txt
-SportPit.txt
-GeographyPit.txt
-FunFactsPit.txt
-CelebritiesPit.txt
