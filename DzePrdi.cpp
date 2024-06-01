@@ -10,6 +10,8 @@
 #include <cstdlib>
 #include <random>
 #include <chrono>
+#include <cstring>
+
 
 #if defined(_WIN32)
 #define CLEAR system("cls");
@@ -24,7 +26,7 @@ fstream teme_za_igru;
 vector<int> shuffle_numbers() // credit: Copilot
 {
     vector<int> numbers;
-    for (int i = 1; i < 8; i++)
+    for (int i = 0; i < 7; i++)
     {
         numbers.push_back(i);
     }
@@ -38,7 +40,7 @@ vector<int> shuffle_numbers() // credit: Copilot
 int generator(vector<int> &numbers, int &index)
 {
     int random_broj = numbers[index];
-    index = (index + 1) % 8;
+    index = (index + 1) % 7;
     return random_broj;
 }
 
@@ -49,11 +51,13 @@ bool izbor_bool(int &izbor)
     return false;
 }
 
+
+
 void ispisivanje_logika_ploce()
 {
     fstream teme_za_igru("Q&A/Teme.txt", ios::app | ios::in);
 
-    string *teme_za_iguru_ran_polje = new string[8];
+    string *teme_za_iguru_ran_polje = new string[7];
     for (int i = 0; i < 7; i++) // upisivanje podataka iz ploce u polje sa kojem mozemo generirati random teme, treba osposobiti generator
     {
         getline(teme_za_igru, teme_za_iguru_ran_polje[i]);
@@ -91,31 +95,42 @@ void ispisivanje_logika_ploce()
     int const izbor_retka = 5;
     int const izbor_stupaca = 6;
     int izbor_polja[izbor_retka][izbor_stupaca];
-    int izbor_teme;
+    string izbor_teme;
 
-    cout << "Enter the topic you want from 1-6" << endl;
-    cin >> izbor_teme;
+    cout << "Enter the topic you want: " << endl;
+    cin.ignore();
+    getline(cin, izbor_teme);
+
+    bool izbor_teme_auth = false;
+    for (int i = 0; i < 7; i++)
+    {
+        if (izbor_teme.compare(teme_za_iguru_ran_polje[i]) == 0) // Strings are equal
+        {
+            izbor_teme_auth = true;
+            break; // No need to check the rest
+        }
+    }
+    if (!izbor_teme_auth)
+    {
+        cout << "Please try again!" << endl;
+    }
+    else
+    {
+        cout << "Podudaraju se";
+    }
 }
 
 int main()
 {
     srand(time(NULL));
     // credit: https://www.asciiart.eu/text-to-ascii-art
-    cout << "  _______   ________   _______ .______   .______       _______   __   __   "<<endl;
-    cout << " |       \\ |       /  |   ____||   _  \\  |   _  \\     |      \\ |  | |  | " << endl;
-    cout << " |  .--.  |`---/  /   |  |__   |  |_)  | |  |_)  |    |  .--.  ||  | |  | " << endl;
-    cout << " |  |  |  |   /  /    |   __|  |   ___/  |      /     |  |  |  ||  | |  | " << endl;
-    cout << " |  '--'  |  /  /----.|  |____ |  |      |  |\\  \\----.|  '--'  ||  | |__|  " << endl;
-    cout<< " |_______/  /________||_______|| _|      | _|  `._____||_______/ |__| (__) " << endl;
-    /*cout << "▓█████▄ ▒███████▒▓█████  ██▓███   ██▀███  ▓█████▄  ██▓ ▐██▌" << endl;
-    cout << "▒██▀ ██▌▒ ▒ ▒ ▄▀░▓█   ▀ ▓██░  ██▒▓██ ▒ ██▒▒██▀ ██▌▓██▒ ▐██▌" << endl;
-    cout << "░██   █▌░ ▒ ▄▀▒░ ▒███   ▓██░ ██▓▒▓██ ░▄█ ▒░██   █▌▒██▒ ▐██▌" << endl;
-    cout << "░▓█▄   ▌  ▄▀▒   ░▒▓█  ▄ ▒██▄█▓▒ ▒▒██▀▀█▄  ░▓█▄   ▌░██░ ▓██▒" << endl;
-    cout << "░▒████▓ ▒███████▒░▒████▒▒██▒ ░  ░░██▓ ▒██▒░▒████▓ ░██░ ▒▄▄ " << endl;
-    cout << " ▒▒▓  ▒ ░▒▒ ▓░▒░▒░░ ▒░ ░▒▓▒░ ░  ░░ ▒▓ ░▒▓░ ▒▒▓  ▒ ░▓   ░▀▀▒" << endl;
-    cout << " ░ ▒  ▒ ░░▒ ▒ ░ ▒ ░ ░  ░░▒ ░       ░▒ ░ ▒░ ░ ▒  ▒  ▒ ░ ░  ░" << endl;
-    cout << "   ░      ░ ░       ░  ░            ░        ░     ░   ░   " << endl;
-    cout << " ░      ░                                  ░               " << endl;*/
+    cout << "██████╗ ███████╗███████╗██████╗ ██████╗ ██████╗ ██╗██╗" << endl;
+    cout << "██╔══██╗╚══███╔╝██╔════╝██╔══██╗██╔══██╗██╔══██╗██║██║" << endl;
+    cout << "██║  ██║  ███╔╝ █████╗  ██████╔╝██████╔╝██║  ██║██║██║" << endl;
+    cout << "██║  ██║ ███╔╝  ██╔══╝  ██╔═══╝ ██╔══██╗██║  ██║██║╚═╝" << endl;
+    cout << "██████╔╝███████╗███████╗██║     ██║  ██║██████╔╝██║██╗" << endl;
+    cout << "╚═════╝ ╚══════╝╚══════╝╚═╝     ╚═╝  ╚═╝╚═════╝ ╚═╝╚═╝" << endl;
+
     while (1)
     {
         int izbor;
@@ -126,7 +141,7 @@ int main()
         cout << "3. Scores" << endl;
         cout << "4. Rules!" << endl;
         cout << "5. Exit" << endl;
-        cout << "Enter selection 1. - 5.: " << endl;
+        cout << "Enter selection 1. - 5. " << endl;
         cin >> izbor;
         if (izbor_bool(izbor))
         {
