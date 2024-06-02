@@ -12,7 +12,6 @@
 #include <chrono>
 #include <cstring>
 
-
 #if defined(_WIN32)
 #define CLEAR system("cls");
 #elif defined(__linux__)
@@ -50,8 +49,6 @@ bool izbor_bool(int &izbor)
         return true;
     return false;
 }
-
-
 
 void ispisivanje_logika_ploce()
 {
@@ -119,7 +116,14 @@ void ispisivanje_logika_ploce()
         cout << "Podudaraju se";
     }
 }
+struct {
+    string ekipa;
 
+} login;
+struct Rezultat{
+    char Timovi[50];
+    float Rez;
+};
 int main()
 {
     srand(time(NULL));
@@ -163,19 +167,41 @@ int main()
             fstream datotekaTimovi;
             string ispis, unos;
             datotekaTimovi.open("Scores&Teams/Teams.txt", ios::in);
+            cout << "Prijasnji timovi: " << endl;
             while (getline(datotekaTimovi, ispis))
                 cout << ispis << endl;
             datotekaTimovi.close();
+            cout << endl << "Unesite naziv tima: " << endl;
             getline(cin, unos);
             cout << endl;
             datotekaTimovi.open("Scores&Teams/Teams.txt", ios::out | ios::app);
-            datotekaTimovi << unos << endl;
+            datotekaTimovi <<endl<< unos << endl;
             datotekaTimovi.close();
         }
         if (izbor == 3)
         {
             cout << "izbor 3" << endl;
             // binarna datoteka
+            struct Rezultat tim[100];
+            int brTimova = 0;
+            fstream datoteka("Score.bin", ios::binary | ios::in);
+            while(datoteka.read((char*)&tim[brTimova],sizeof(Rezultat)))
+            {
+                cout << tim[brTimova].Timovi << " " << tim[brTimova].Rez << endl;
+                brTimova++;
+            }
+            datoteka.close();
+            int n;
+            cin >> n;
+            cin.ignore();
+            for (int i = 0; i < n;i++){
+                cin.getline(tim[brTimova + i].Timovi, 50);
+                cin >> tim[brTimova + i].Rez;
+            }
+            sort(tim, tim + brTimova + n, cmp);
+            datoteka.open("Score.bin", ios::binary | ios::out | ios::trunc);
+            datoteka.write((char *)tim, sizeof(Rezultat) * (brTimova + n));
+            datoteka.close();
         }
         if (izbor == 4)
         {
