@@ -92,11 +92,11 @@ void ispisivanje_logika_ploce()
     int const izbor_retka = 5;
     int const izbor_stupaca = 6;
     int izbor_polja[izbor_retka][izbor_stupaca];
-    string izbor_teme;
+    string izbor_teme[100];
 
     cout << "Enter the topic you want: " << endl;
     cin.ignore();
-    getline(cin, izbor_teme);
+    /*getline(cin, izbor_teme[]);
 
     bool izbor_teme_auth = false;
     for (int i = 0; i < 7; i++)
@@ -114,7 +114,7 @@ void ispisivanje_logika_ploce()
     else
     {
         cout << "Podudaraju se";
-    }
+    }*/
 }
 struct {
     string ekipa;
