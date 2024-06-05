@@ -22,6 +22,11 @@ using namespace std;
 
 fstream teme_za_igru;
 
+void rtrim(string &s) // credit: https://stackoverflow.com/questions/216823/how-to-trim-a-stdstring
+{
+    s.erase(s.find_last_not_of(" \n\r\t") + 1);
+}
+
 vector<int> shuffle_numbers() // credit: Copilot
 {
     vector<int> numbers;
@@ -59,6 +64,10 @@ void ispisivanje_logika_ploce()
     {
         getline(teme_za_igru, teme_za_iguru_ran_polje[i]);
     }
+    for (int i = 0; i < 7; i++) //trimaje polja
+    {
+        rtrim(teme_za_iguru_ran_polje[i]);
+    }
 
     teme_za_igru.close();
 
@@ -95,6 +104,7 @@ void ispisivanje_logika_ploce()
     string izbor_teme[1]; // velicina polja na 1 jer ce uvijek biti zapisan samo jedan podatak
 
     cout << "Enter the topic you want: " << endl;
+    cin.ignore();
     getline(cin, izbor_teme[0]);
 
     bool izbor_teme_auth = false;
@@ -109,11 +119,9 @@ void ispisivanje_logika_ploce()
     if (!izbor_teme_auth)
     {
         cout << "Please try again!" << endl;
+        //dodati goto statment
     }
-    else
-    {
-        cout << "TO JE TOOO!";
-    }
+
 }
 struct {
     string ekipa;
