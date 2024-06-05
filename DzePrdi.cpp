@@ -92,19 +92,18 @@ void ispisivanje_logika_ploce()
     int const izbor_retka = 5;
     int const izbor_stupaca = 6;
     int izbor_polja[izbor_retka][izbor_stupaca];
-    string izbor_teme[100];
+    string izbor_teme[1]; // velicina polja na 1 jer ce uvijek biti zapisan samo jedan podatak
 
     cout << "Enter the topic you want: " << endl;
-    cin.ignore();
-    /*getline(cin, izbor_teme[]);
+    getline(cin, izbor_teme[0]);
 
     bool izbor_teme_auth = false;
     for (int i = 0; i < 7; i++)
     {
-        if (izbor_teme.compare(teme_za_iguru_ran_polje[i]) == 0) // Strings are equal
+        if (izbor_teme[0] == teme_za_iguru_ran_polje[i]) 
         {
             izbor_teme_auth = true;
-            break; // No need to check the rest
+            break;
         }
     }
     if (!izbor_teme_auth)
@@ -113,8 +112,8 @@ void ispisivanje_logika_ploce()
     }
     else
     {
-        cout << "Podudaraju se";
-    }*/
+        cout << "TO JE TOOO!";
+    }
 }
 struct {
     string ekipa;
@@ -180,7 +179,7 @@ int main()
         }
         if (izbor == 3)
         {
-            cout << "izbor 3" << endl;
+            /*cout << "izbor 3" << endl;
             // binarna datoteka
             struct Rezultat tim[100];
             int brTimova = 0;
@@ -198,10 +197,10 @@ int main()
                 cin.getline(tim[brTimova + i].Timovi, 50);
                 cin >> tim[brTimova + i].Rez;
             }
-            sort(tim, tim + brTimova + n, cmp);
+            sort(tim, tim + brTimova + n, cmp());
             datoteka.open("Score.bin", ios::binary | ios::out | ios::trunc);
             datoteka.write((char *)tim, sizeof(Rezultat) * (brTimova + n));
-            datoteka.close();
+            datoteka.close();*/
         }
         if (izbor == 4)
         {
