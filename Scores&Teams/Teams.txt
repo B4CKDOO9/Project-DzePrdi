@@ -2,3 +2,5 @@ lukas
 smolec je glup
 janci banaci
 miki motorka
+
+ide gas

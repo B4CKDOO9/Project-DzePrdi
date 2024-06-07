@@ -131,6 +131,9 @@ struct Rezultat{
     char Timovi[50];
     float Rez;
 };
+bool cmp(Rezultat &a, Rezultat &b){
+    return a.Rez > b.Rez;
+}
 int main()
 {
     srand(time(NULL));
@@ -173,7 +176,7 @@ int main()
             // tekstualna datoteka
             fstream datotekaTimovi;
             string ispis, unos;
-            datotekaTimovi.open("Scores&Teams/Teams.txt", ios::in);
+            datotekaTimovi.open("C:/Users/Gb-gama/Documents/GitHub/Project-DzePrdi/Scores&Teams/Teams.txt", ios::in);
             cout << "Prijasnji timovi: " << endl;
             while (getline(datotekaTimovi, ispis))
                 cout << ispis << endl;
@@ -181,13 +184,13 @@ int main()
             cout << endl << "Unesite naziv tima: " << endl;
             getline(cin, unos);
             cout << endl;
-            datotekaTimovi.open("Scores&Teams/Teams.txt", ios::out | ios::app);
+            datotekaTimovi.open("C:/Users/Gb-gama/Documents/GitHub/Project-DzePrdi/Scores&Teams/Teams.txt", ios::out | ios::app);
             datotekaTimovi <<endl<< unos << endl;
             datotekaTimovi.close();
         }
         if (izbor == 3)
         {
-            /*cout << "izbor 3" << endl;
+            cout << "izbor 3" << endl;
             // binarna datoteka
             struct Rezultat tim[100];
             int brTimova = 0;
@@ -205,10 +208,10 @@ int main()
                 cin.getline(tim[brTimova + i].Timovi, 50);
                 cin >> tim[brTimova + i].Rez;
             }
-            sort(tim, tim + brTimova + n, cmp());
+            sort(tim, tim + brTimova + n, cmp);
             datoteka.open("Score.bin", ios::binary | ios::out | ios::trunc);
             datoteka.write((char *)tim, sizeof(Rezultat) * (brTimova + n));
-            datoteka.close();*/
+            datoteka.close();
         }
         if (izbor == 4)
         {
