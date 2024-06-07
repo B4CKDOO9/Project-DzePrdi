@@ -21,6 +21,7 @@
 using namespace std;
 
 fstream teme_za_igru;
+fstream datotekaTimovi;
 
 void rtrim(string &s) // credit: https://stackoverflow.com/questions/216823/how-to-trim-a-stdstring
 {
@@ -64,7 +65,7 @@ void ispisivanje_logika_ploce()
     {
         getline(teme_za_igru, teme_za_iguru_ran_polje[i]);
     }
-    for (int i = 0; i < 7; i++) //trimaje polja
+    for (int i = 0; i < 7; i++) // trimaje polja
     {
         rtrim(teme_za_iguru_ran_polje[i]);
     }
@@ -110,7 +111,7 @@ void ispisivanje_logika_ploce()
     bool izbor_teme_auth = false;
     for (int i = 0; i < 7; i++)
     {
-        if (izbor_teme[0] == teme_za_iguru_ran_polje[i]) 
+        if (izbor_teme[0] == teme_za_iguru_ran_polje[i])
         {
             izbor_teme_auth = true;
             break;
@@ -119,21 +120,13 @@ void ispisivanje_logika_ploce()
     if (!izbor_teme_auth)
     {
         cout << "Please try again!" << endl;
-        //dodati goto statment
+        // dodati goto statment
     }
-
 }
-struct {
-    string ekipa;
-
-} login;
-struct Rezultat{
-    char Timovi[50];
-    float Rez;
-};
-bool cmp(Rezultat &a, Rezultat &b){
+/*bool cmp(Rezultat &a, Rezultat &b)
+{
     return a.Rez > b.Rez;
-}
+}*/
 int main()
 {
     srand(time(NULL));
@@ -174,44 +167,41 @@ int main()
             cin.ignore();
             cout << "izbor 2" << endl;
             // tekstualna datoteka
-            fstream datotekaTimovi;
             string ispis, unos;
             datotekaTimovi.open("C:/Users/Gb-gama/Documents/GitHub/Project-DzePrdi/Scores&Teams/Teams.txt", ios::in);
             cout << "Prijasnji timovi: " << endl;
             while (getline(datotekaTimovi, ispis))
                 cout << ispis << endl;
             datotekaTimovi.close();
-            cout << endl << "Unesite naziv tima: " << endl;
+            cout << endl
+                 << "Unesite naziv tima: " << endl;
             getline(cin, unos);
             cout << endl;
             datotekaTimovi.open("C:/Users/Gb-gama/Documents/GitHub/Project-DzePrdi/Scores&Teams/Teams.txt", ios::out | ios::app);
-            datotekaTimovi <<endl<< unos << endl;
+            datotekaTimovi << endl
+                           << unos << endl;
             datotekaTimovi.close();
         }
         if (izbor == 3)
         {
             cout << "izbor 3" << endl;
             // binarna datoteka
-            struct Rezultat tim[100];
-            int brTimova = 0;
-            fstream datoteka("Score.bin", ios::binary | ios::in);
-            while(datoteka.read((char*)&tim[brTimova],sizeof(Rezultat)))
-            {
-                cout << tim[brTimova].Timovi << " " << tim[brTimova].Rez << endl;
-                brTimova++;
-            }
-            datoteka.close();
-            int n;
-            cin >> n;
             cin.ignore();
-            for (int i = 0; i < n;i++){
-                cin.getline(tim[brTimova + i].Timovi, 50);
-                cin >> tim[brTimova + i].Rez;
+            string tim;
+            string ispis;
+            int brBodova=13;
+            cout << "Koji je vas tim?" << endl;
+            datotekaTimovi.open("C:/Users/Gb-gama/Documents/GitHub/Project-DzePrdi/Scores&Teams/Teams.txt", ios::app|ios::in);
+            cout << "TIMOVI:" << endl;
+            while(getline(datotekaTimovi,ispis)){
+                cout << ispis << endl;
             }
-            sort(tim, tim + brTimova + n, cmp);
-            datoteka.open("Score.bin", ios::binary | ios::out | ios::trunc);
-            datoteka.write((char *)tim, sizeof(Rezultat) * (brTimova + n));
-            datoteka.close();
+            getline(cin, tim);
+            datotekaTimovi.close();
+            fstream datotekaRezultat("C:/Users/Gb-gama/Documents/GitHub/Project-DzePrdi/Scores&Teams/Score.bin", ios::binary | ios::out|ios::app);
+            datotekaRezultat.write((char *)&tim, sizeof(tim));
+            datotekaRezultat.write((char *)&brBodova, sizeof(brBodova));
+            datotekaRezultat.close();
         }
         if (izbor == 4)
         {
