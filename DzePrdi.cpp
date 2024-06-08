@@ -12,12 +12,11 @@
 #include <chrono>
 #include <cstring>
 
-void clear_screen()
+void clear_screen() // https://stackoverflow.com/questions/1348563/clearing-output-of-a-terminal-program-linux-c-c
 {
-    printf(
-        "\033[2J"
-        "\033[1;1H");
+    printf("\033[2J\033[1;1H");
 }
+
 using namespace std;
 
 fstream teme_za_igru;
