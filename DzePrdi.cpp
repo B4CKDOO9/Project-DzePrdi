@@ -12,12 +12,12 @@
 #include <chrono>
 #include <cstring>
 
-#if defined(_WIN32)
-#define CLEAR system("cls");
-#elif defined(__linux__)
-#define CLEAR system("clear");
-#endif
-
+void clear_screen()
+{
+    printf(
+        "\033[2J"
+        "\033[1;1H");
+}
 using namespace std;
 
 fstream teme_za_igru;
@@ -61,13 +61,14 @@ bool izbor_bool(int &izbor)
 
 void ispisivanje_logika_ploce()
 {
-        //otvaranje temea za igru
-         
-        teme_za_igru.open("Q&A/Teme.txt",ios::in);
-        string *teme_za_iguru_ran_polje = new string[7];
-        for (int i = 0; i < 7; i++) // upisivanje podataka iz ploce u polje sa kojem mozemo generirati random teme, treba osposobiti generator
-        {
-            getline(teme_za_igru, teme_za_iguru_ran_polje[i]);
+    clear_screen();
+    // otvaranje temea za igru
+
+    teme_za_igru.open("Q&A/Teme.txt", ios::in);
+    string *teme_za_iguru_ran_polje = new string[7];
+    for (int i = 0; i < 7; i++) // upisivanje podataka iz ploce u polje sa kojem mozemo generirati random teme, treba osposobiti generator
+    {
+        getline(teme_za_igru, teme_za_iguru_ran_polje[i]);
         }
         for (int i = 0; i < 7; i++) // trimaje polja
         {
@@ -159,6 +160,7 @@ void ispisivanje_logika_ploce()
                     cout << "Please try again!" << endl;
                     izbor_teme[0].erase();
                     Sleep(2000);
+                    clear_screen();
                     break;
                 }
                 else // ostatak igre
@@ -188,8 +190,9 @@ void ispisivanje_logika_ploce()
                         odabrana_tema_pitanja[i].erase();
                         odabrana_tema_odgovori[i].erase();
                     }
-                    
-                      break;
+                    clear_screen();
+                    break;
+
                 }   
             }
         }
@@ -210,17 +213,19 @@ bool cmp(Rezultat &a, Rezultat &b)
 int main()
 {
     srand(time(NULL));
-    // credit: https://www.asciiart.eu/text-to-ascii-art
-    cout << "██████╗ ███████╗███████╗██████╗ ██████╗ ██████╗ ██╗██╗" << endl;
-    cout << "██╔══██╗╚══███╔╝██╔════╝██╔══██╗██╔══██╗██╔══██╗██║██║" << endl;
-    cout << "██║  ██║  ███╔╝ █████╗  ██████╔╝██████╔╝██║  ██║██║██║" << endl;
-    cout << "██║  ██║ ███╔╝  ██╔══╝  ██╔═══╝ ██╔══██╗██║  ██║██║╚═╝" << endl;
-    cout << "██████╔╝███████╗███████╗██║     ██║  ██║██████╔╝██║██╗" << endl;
-    cout << "╚═════╝ ╚══════╝╚══════╝╚═╝     ╚═╝  ╚═╝╚═════╝ ╚═╝╚═╝" << endl;
 
     while (1)
     {
+        // credit: https://www.asciiart.eu/text-to-ascii-art
+        cout << "██████╗ ███████╗███████╗██████╗ ██████╗ ██████╗ ██╗██╗" << endl;
+        cout << "██╔══██╗╚══███╔╝██╔════╝██╔══██╗██╔══██╗██╔══██╗██║██║" << endl;
+        cout << "██║  ██║  ███╔╝ █████╗  ██████╔╝██████╔╝██║  ██║██║██║" << endl;
+        cout << "██║  ██║ ███╔╝  ██╔══╝  ██╔═══╝ ██╔══██╗██║  ██║██║╚═╝" << endl;
+        cout << "██████╔╝███████╗███████╗██║     ██║  ██║██████╔╝██║██╗" << endl;
+        cout << "╚═════╝ ╚══════╝╚══════╝╚═╝     ╚═╝  ╚═╝╚═════╝ ╚═╝╚═╝" << endl;
+
         int izbor;
+
         cout << endl;
         cout << "Menu" << endl;
         cout << "1. Start game!" << endl;
@@ -232,10 +237,10 @@ int main()
         cin >> izbor;
         if (izbor_bool(izbor))
         {
-            CLEAR;
+            clear_screen();
             cout << "Wrong selection please try again!" << endl;
             Sleep(3000);
-            CLEAR;
+            clear_screen();
             continue;
         }
         if (izbor == 1)
