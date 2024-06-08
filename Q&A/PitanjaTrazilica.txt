@@ -1,0 +1,7 @@
+Q&A\Pitanja\GeneralKnowladgePit.txt
+Q&A\Pitanja\MoviesPit.txt
+Q&A\Pitanja\BrainRotPit.txt
+Q&A\Pitanja\SportPit.txt
+Q&A\Pitanja\GeographyPit.txt
+Q&A\Pitanja\FunFactsPit.txt
+Q&A\Pitanja\CelebritiesPit.txt

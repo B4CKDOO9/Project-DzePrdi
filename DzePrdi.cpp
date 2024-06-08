@@ -22,6 +22,10 @@ using namespace std;
 
 fstream teme_za_igru;
 fstream datotekaTimovi;
+fstream datoteka_pitanja_trazilica;
+fstream datoteka_odgovori_trazilica;
+fstream odabrana_tema_pitanja_stream;
+fstream odabrana_tema_odgovori_stream;
 
 void rtrim(string &s) // credit: https://stackoverflow.com/questions/216823/how-to-trim-a-stdstring
 {
@@ -57,8 +61,9 @@ bool izbor_bool(int &izbor)
 
 void ispisivanje_logika_ploce()
 {
-        fstream teme_za_igru("Q&A/Teme.txt", ios::app | ios::in);
-
+        //otvaranje temea za igru
+         
+        teme_za_igru.open("Q&A/Teme.txt",ios::in);
         string *teme_za_iguru_ran_polje = new string[7];
         for (int i = 0; i < 7; i++) // upisivanje podataka iz ploce u polje sa kojem mozemo generirati random teme, treba osposobiti generator
         {
@@ -68,75 +73,128 @@ void ispisivanje_logika_ploce()
         {
             rtrim(teme_za_iguru_ran_polje[i]);
         }
-
         teme_za_igru.close();
+
+        //otvaranje dateke sa pathovima za pitanja
+
+        datoteka_pitanja_trazilica.open("Q&A/PitanjaTrazilica.txt",ios::in);
+        string *pitanja_otvaranje_dat = new string[7];
+
+        for (int i = 0; i < 7; i++)
+        {
+            datoteka_pitanja_trazilica >> pitanja_otvaranje_dat[i];
+        }
+        datoteka_pitanja_trazilica.close();
+
+        // otvaranje dateke sa paathovima za odgovore
+
+       datoteka_odgovori_trazilica.open("Q&A/OdgovoriTrazilica.txt",ios::in);
+        string *odgovori_otvaranje_dat = new string[7];
+
+        for (int i = 0; i < 7; i++)
+        {
+            datoteka_odgovori_trazilica >> odgovori_otvaranje_dat[i];
+        }
+        datoteka_odgovori_trazilica.close();
 
         int index = 0;
         int const br_Retka = 5;
         int const br_Stupaca = 6;
         int const br_Tema = 6;
-
+        vector<int> index_tema(7);
         vector<int> numeros = shuffle_numbers();
 
-        int polje_money[br_Retka][br_Stupaca] = {{200, 200, 200, 200, 200, 200},
-                                                 {400, 400, 400, 400, 400, 400},
-                                                 {600, 600, 600, 600, 600, 600},
-                                                 {800, 800, 800, 800, 800, 800},
-                                                 {1000, 1000, 1000, 1000, 1000, 1000}}; // logika ce nesto sitno ici ako je ovo broj stupca j isti kao i odabrana tema i tada mozemo napravit provjeru da izvucemo pitanje za pravu temu
-        for (int i = 0; i < br_Tema; i++)
+
+        for (int i = 0; i < 7; i++)
         {
-            cout << setw(22) << teme_za_iguru_ran_polje[generator(numeros, index)]; // resolve genrator printa samo jedno onak polje jebati breg mater
+            index_tema[i] = generator(numeros, index); //pamcenje generiranih brojeva
         }
 
-        for (int i = 0; i < br_Retka; i++)
+        while(1)
         {
-            cout << endl;
-            for (int j = 0; j < br_Stupaca; j++)
+            int polje_money[br_Retka][br_Stupaca] = {{200, 200, 200, 200, 200, 200},
+                                                     {400, 400, 400, 400, 400, 400},
+                                                     {600, 600, 600, 600, 600, 600},
+                                                     {800, 800, 800, 800, 800, 800},
+                                                     {1000, 1000, 1000, 1000, 1000, 1000}}; // logika ce nesto sitno ici ako je ovo broj stupca j isti kao i odabrana tema i tada mozemo napravit provjeru da izvucemo pitanje za pravu temu
+            for (int i = 0; i < br_Tema; i++)
             {
-                cout << setw(20) << polje_money[i][j] << "$ ";
+                cout << setw(22) << teme_za_iguru_ran_polje[index_tema[i]]; // resolve genrator printa samo jedno onak polje jebati breg mater
             }
-        }
-        cout << endl;
 
-        int const izbor_retka = 5;
-        int const izbor_stupaca = 6;
-        int izbor_polja[izbor_retka][izbor_stupaca];
-        string izbor_teme[1]; // velicina polja na 1 jer ce uvijek biti zapisan samo jedan podatak
-
-        cout << "Enter the topic you want: " << endl;
-        cin.ignore();
-        getline(cin, izbor_teme[0]);
-
-        while (1)
-        {
-            bool izbor_teme_auth = false;
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < br_Retka; i++)
             {
-                if (izbor_teme[0] == teme_za_iguru_ran_polje[i])
+                cout << endl;
+                for (int j = 0; j < br_Stupaca; j++)
                 {
-                    izbor_teme_auth = true;
-                    break;
+                    cout << setw(20) << polje_money[i][j] << "$ ";
                 }
             }
-            if (!izbor_teme_auth)
+            cout << endl;
+
+            int const izbor_retka = 5;
+            int const izbor_stupaca = 6;
+            int izbor_polja[izbor_retka][izbor_stupaca];
+            string izbor_teme[1]; // velicina polja na 1 jer ce uvijek biti zapisan samo jedan podatak
+            int index_odabrane_teme;
+
+            while(1)
             {
-                cout << "Please try again!" << endl;
-                izbor_teme[0].erase();
-                Sleep(2000);
-                CLEAR;
+
                 cout << "Enter the topic you want: " << endl;
                 getline(cin, izbor_teme[0]);
-            }
-            else
-            {
-                cout << "proslo" << endl;
-                break;
-            }
 
-            CLEAR;
+                bool izbor_teme_auth = false;
+                for (int i = 0; i < 7; i++)
+                {
+                    if (izbor_teme[0] == teme_za_iguru_ran_polje[i])
+                    {
+                        index_odabrane_teme = i;
+                        izbor_teme_auth = true;
+                        break;
+                    }
+                }
+                if (!izbor_teme_auth)
+                {
+                    cout << "Please try again!" << endl;
+                    izbor_teme[0].erase();
+                    Sleep(2000);
+                    break;
+                }
+                else // ostatak igre
+                {
+                    // UCITAVANJE PITANJA
+                    odabrana_tema_pitanja_stream.open(pitanja_otvaranje_dat[index_odabrane_teme],ios::in);
+                    string *odabrana_tema_pitanja = new string[5];
+                    for (int i = 0; i < 5; i++)
+                    {
+                        getline(odabrana_tema_pitanja_stream, odabrana_tema_pitanja[i]);
+                    }
+                    odabrana_tema_pitanja_stream.close();
+
+                    // UCITAVANJE ODGOVORA
+                    odabrana_tema_odgovori_stream.open(odgovori_otvaranje_dat[index_odabrane_teme],ios::in);
+                    string *odabrana_tema_odgovori = new string[5];
+                    for (int i = 0; i < 5; i++)
+                    {
+                        getline(odabrana_tema_odgovori_stream, odabrana_tema_odgovori[i]);
+                    }
+                    odabrana_tema_odgovori_stream.close();
+
+
+                    //brisanje stringova zbog overwrita
+                    for (int i = 0; i < 5; i++)
+                    {
+                        odabrana_tema_pitanja[i].erase();
+                        odabrana_tema_odgovori[i].erase();
+                    }
+                    
+                      break;
+                }   
+            }
         }
-        //unos podataka i ispis
 }
+
 struct {
     string ekipa;
 
@@ -182,6 +240,7 @@ int main()
         }
         if (izbor == 1)
         {
+            cin.ignore();
             ispisivanje_logika_ploce();
         }
         if (izbor == 2)

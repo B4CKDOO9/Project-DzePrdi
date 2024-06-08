@@ -1,0 +1,7 @@
+Q&A\Odgovori\GeneralKnowladgeOdg.txt
+Q&A\Odgovori\MoviesOdg.txt
+Q&A\Odgovori\BrainRotOdg.txt
+Q&A\Odgovori\SportOdg.txt
+Q&A\Odgovori\GeographyOdg.txt
+Q&A\Odgovori\FunFactsOdg.txt
+Q&A\Odgovori\CelebritiesOdg.txt
