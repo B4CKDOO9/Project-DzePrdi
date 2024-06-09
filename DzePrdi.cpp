@@ -139,7 +139,7 @@ void ispisivanje_logika_ploce()
             cout << endl;
             for (int j = 0; j < br_Stupaca; j++)
             {
-                    cout << setw(20) << polje_money[i][j] << "$ ";
+                cout << setw(20) << polje_money[i][j] << "$ ";
             }
         }
         cout << endl;
@@ -218,7 +218,10 @@ void ispisivanje_logika_ploce()
                     cin.ignore();
                     getline(cin, odgovor[0]);
 
+                    //provjera da li je odgovor vec bio odigran
+
                     // pretvaranje u lowercase
+
 
                     for (int i = 0; i < odgovor[0].length(); i++)
                     {
@@ -234,12 +237,16 @@ void ispisivanje_logika_ploce()
 
                     if (odgovor_tolower[0] == odabrana_tema_odgovori[index_odabrana_cifra])
                     {
+                        clear_screen();
                         cout << "Congrats! You have won: " << polje_money[index_odabrana_cifra][index_odabrane_teme] << "$" << endl;
                         Sleep(3000);
                         polje_money[index_odabrana_cifra][trazeni_index] = 1;
+                        //dodati pridruzivanje para igracu
+                        break;
                     }
                     else
                     {
+                        clear_screen();
                         cout << "Unfortiunatly, your answer was wrong!" << endl;
                         Sleep(3000);
                         polje_money[index_odabrana_cifra][trazeni_index] = 0;
