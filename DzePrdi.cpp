@@ -408,7 +408,7 @@ int main()
             else
             {
                 clear_screen();
-                cout << "Please,finish the game!" << endl;
+                cout << "Please, finish the game!" << endl;
                 Sleep(3000);
             }
         }
@@ -420,7 +420,7 @@ int main()
                  << "When the player answers the question, question can't be answered again." << endl
                  << "The player can play until all the questions arent answered or he can stop the game after every answer." << endl
                  << "HAVE FUN!" << endl;
-            system("pause");
+            Sleep(10000);
             clear_screen();
         }
         if (izbor == 5)
