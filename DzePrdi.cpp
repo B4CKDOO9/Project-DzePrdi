@@ -19,6 +19,7 @@ void clear_screen() // https://stackoverflow.com/questions/1348563/clearing-outp
 
 using namespace std;
 
+double money;
 fstream teme_za_igru;
 fstream datotekaTimovi;
 fstream datoteka_pitanja_trazilica;
@@ -239,6 +240,13 @@ void ispisivanje_logika_ploce()
                     {
                         clear_screen();
                         cout << "Congrats! You have won: " << polje_money[index_odabrana_cifra][index_odabrane_teme] << "$" << endl;
+                        money = polje_money[index_odabrana_cifra][index_odabrane_teme];
+                        /*cout<<"Do you want to continue playing? Y/N ";
+                        if(answer==Y)
+                            continue;
+                        else{
+                            exit_break_point;
+                        }*/
                         Sleep(3000);
                         polje_money[index_odabrana_cifra][trazeni_index] = 1;
                         //dodati pridruzivanje para igracu
@@ -247,7 +255,7 @@ void ispisivanje_logika_ploce()
                     else
                     {
                         clear_screen();
-                        cout << "Unfortiunatly, your answer was wrong!" << endl;
+                        cout << "Unfortunately, your answer was wrong!" << endl;
                         Sleep(3000);
                         polje_money[index_odabrana_cifra][trazeni_index] = 0;
                         break;
@@ -324,7 +332,7 @@ int main()
             cout << "izbor 2" << endl;
             // tekstualna datoteka
             string ispis, unos;
-            datotekaTimovi.open("C:/Users/Gb-gama/Documents/GitHub/Project-DzePrdi/Scores&Teams/Teams.txt", ios::in);
+            datotekaTimovi.open("Scores&Teams/Teams.txt", ios::in);
             cout << "Prijasnji timovi: " << endl;
             while (getline(datotekaTimovi, ispis))
                 cout << ispis << endl;
@@ -333,7 +341,7 @@ int main()
                  << "Unesite naziv tima: " << endl;
             getline(cin, unos);
             cout << endl;
-            datotekaTimovi.open("C:/Users/Gb-gama/Documents/GitHub/Project-DzePrdi/Scores&Teams/Teams.txt", ios::out | ios::app);
+            datotekaTimovi.open("Scores&Teams/Teams.txt", ios::out | ios::app);
             datotekaTimovi << endl
                            << unos << endl;
             datotekaTimovi.close();
@@ -345,9 +353,8 @@ int main()
             cin.ignore();
             string tim;
             string ispis;
-            int brBodova = 13;
             cout << "Koji je vas tim?" << endl;
-            datotekaTimovi.open("C:/Users/Gb-gama/Documents/GitHub/Project-DzePrdi/Scores&Teams/Teams.txt", ios::app | ios::in);
+            datotekaTimovi.open("Scores&Teams/Teams.txt", ios::app | ios::in);
             cout << "TIMOVI:" << endl;
             while (getline(datotekaTimovi, ispis))
             {
@@ -355,9 +362,9 @@ int main()
             }
             getline(cin, tim);
             datotekaTimovi.close();
-            fstream datotekaRezultat("C:/Users/Gb-gama/Documents/GitHub/Project-DzePrdi/Scores&Teams/Score.bin", ios::binary | ios::out | ios::app);
+            fstream datotekaRezultat("Scores&Teams/Score.bin", ios::binary | ios::out | ios::app);
             datotekaRezultat.write((char *)&tim, sizeof(tim));
-            datotekaRezultat.write((char *)&brBodova, sizeof(brBodova));
+            datotekaRezultat.write((char *)&money, sizeof(money));
             datotekaRezultat.close();
         }
         if (izbor == 4)
