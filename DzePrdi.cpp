@@ -11,20 +11,23 @@
 #include <random>
 #include <chrono>
 #include <cstring>
-
-void clear_screen() // https://stackoverflow.com/questions/1348563/clearing-output-of-a-terminal-program-linux-c-c
-{
-    printf("\033[2J\033[1;1H");
-}
+#include <limits>
 
 using namespace std;
-int money;
+
 fstream teme_za_igru;
 fstream datotekaTimovi;
 fstream datoteka_pitanja_trazilica;
 fstream datoteka_odgovori_trazilica;
 fstream odabrana_tema_pitanja_stream;
 fstream odabrana_tema_odgovori_stream;
+
+int money;
+
+void clear_screen() // https://stackoverflow.com/questions/1348563/clearing-output-of-a-terminal-program-linux-c-c
+{
+    printf("\033[2J\033[1;1H");
+}
 
 void rtrim(string &s) // credit: https://stackoverflow.com/questions/216823/how-to-trim-a-stdstring
 {
@@ -112,6 +115,7 @@ void ispisivanje_logika_ploce()
     vector<int> numeros = shuffle_numbers();
     int index_tema_int[7];
     int brojac_odigranih_polja = 0;
+    int odgovor_da_ne = 1;
 
     for (int i = 0; i < 7; i++)
     {
@@ -130,6 +134,17 @@ void ispisivanje_logika_ploce()
                                              {1000, 1000, 1000, 1000, 1000, 1000}}; // logika ce nesto sitno ici ako je ovo broj stupca j isti kao i odabrana tema i tada mozemo napravit provjeru da izvucemo pitanje za pravu temu
     while (1)
     {
+
+        if(brojac_odigranih_polja == 30)
+        {
+            break;
+        }
+
+        if (odgovor_da_ne != 1)
+        {
+            break;
+        }
+
         for (int i = 0; i < br_Tema; i++)
         {
             cout << setw(22) << teme_za_iguru_ran_polje[index_tema[i]]; // resolve genrator printa samo jedno onak polje jebati breg mater
@@ -143,14 +158,15 @@ void ispisivanje_logika_ploce()
                 cout << setw(20) << polje_money[i][j] << "$ ";
             }
         }
-        cout << endl;
+
+        cout << endl << endl;
+        cout << setw(30) << "200$ = 0" << setw(22) << "400$ = 1" << setw(22) << "600$ = 2" << setw(22) << "800$ = 3" << setw(22) << "1000$ = 4" << endl;
 
         string izbor_teme[1]; // velicina polja na 1 jer ce uvijek biti zapisan samo jedan podatak
         int index_odabrane_teme;
 
         while (1)
         {
-
             cout << "Enter the topic you want: " << endl;
             getline(cin, izbor_teme[0]);
 
@@ -220,14 +236,9 @@ void ispisivanje_logika_ploce()
 
                     if (polje_money[index_odabrana_cifra][trazeni_index] == 0)
                     {
-                        cout << "You have already played this!" << endl;
+                        cout << "Wrong selection please try again!" << endl;
                         brojac_odigranih_polja++;
                         break;
-                    }
-
-                    if(brojac_odigranih_polja == 30)
-                    {
-                        goto exit_break_point;
                     }
 
                     clear_screen();
@@ -252,16 +263,13 @@ void ispisivanje_logika_ploce()
                     {
                         clear_screen();
                         cout << "Congrats! You have won: " << polje_money[index_odabrana_cifra][index_odabrane_teme] << "$" << endl;
-                        money = polje_money[index_odabrana_cifra][index_odabrane_teme];
-                        /*cout<<"Do you want to continue playing? Y/N ";
-                        if(answer==Y)
-                            continue;
-                        else{
-                            exit_break_point;
-                        }*/
+                        money += polje_money[index_odabrana_cifra][index_odabrane_teme];
                         Sleep(3000);
                         polje_money[index_odabrana_cifra][trazeni_index] = 0;
-                        // dodati pridruzivanje para igracu
+                        clear_screen();
+                        cout << "Do you wish to contonue with the game? 1/0" << endl;
+                        cin >> odgovor_da_ne;
+                        cin.ignore();
                         break;
                     }
                     else
@@ -270,6 +278,10 @@ void ispisivanje_logika_ploce()
                         cout << "Unfortunately, your answer was wrong!" << endl;
                         Sleep(3000);
                         polje_money[index_odabrana_cifra][trazeni_index] = 0;
+                        clear_screen();
+                        cout << "Do you wish to contonue with the game? 1/0" << endl;
+                        cin >> odgovor_da_ne;
+                        cin.ignore();
                         break;
                     }
                 }
@@ -281,11 +293,7 @@ void ispisivanje_logika_ploce()
                 }
                 clear_screen();
                 break;
-             }
-        }
-        exit_break_point:
-        {
-            break;
+            }
         }
     }
 }
@@ -307,10 +315,12 @@ bool cmp(Rezultat &a, Rezultat &b)
 int main()
 {
     srand(time(NULL));
+    bool unos_player = false;
+    bool scores_player = false;
 
     while (1)
     {
-        pocetak_igre:
+        clear_screen();
         // credit: https://www.asciiart.eu/text-to-ascii-art
         cout << "██████╗ ███████╗███████╗██████╗ ██████╗ ██████╗ ██╗██╗" << endl;
         cout << "██╔══██╗╚══███╔╝██╔════╝██╔══██╗██╔══██╗██╔══██╗██║██║" << endl;
@@ -340,63 +350,81 @@ int main()
         }
         if (izbor == 1)
         {
-            cin.ignore();
-            ispisivanje_logika_ploce();
+            if (unos_player)
+            {
+                cin.ignore();
+                ispisivanje_logika_ploce();
+                scores_player = true;
+            }
+            else
+            {
+                clear_screen();
+                cout << "Please, enter the name of the player in 2. Teams" << endl;
+                Sleep(3000);
+            }
         }
         if (izbor == 2)
         {
+            clear_screen();
             cin.ignore();
-            cout << "izbor 2" << endl;
-            // tekstualna datoteka
             string ispis, unos;
             datotekaTimovi.open("Scores&Teams/Teams.txt", ios::in);
             cout << "Prijasnji timovi: " << endl;
             while (getline(datotekaTimovi, ispis))
-                cout << ispis << endl;
-            datotekaTimovi.close();
-            cout << endl
-                 << "Unesite naziv tima: " << endl;
-            getline(cin, unos);
-            cout << endl;
-            datotekaTimovi.open("Scores&Teams/Teams.txt", ios::out | ios::app);
-            datotekaTimovi << endl
-                           << unos << endl;
-            datotekaTimovi.close();
-        }
-        if (izbor == 3)
-        {
-            cout << "izbor 3" << endl;
-            // binarna datoteka
-            cin.ignore();
-            string tim;
-            string ispis;
-            cout << "Koji je vas tim?" << endl;
-            datotekaTimovi.open("Scores&Teams/Teams.txt", ios::app | ios::in);
-            cout << "TIMOVI:" << endl;
-            while (getline(datotekaTimovi, ispis))
             {
                 cout << ispis << endl;
             }
-            getline(cin, tim);
             datotekaTimovi.close();
-            fstream datotekaRezultat("Scores&Teams/Score.bin", ios::binary | ios::out | ios::app);
-            datotekaRezultat.write((char *)&tim, sizeof(tim));
-            datotekaRezultat.write((char *)&money, sizeof(money));
-            datotekaRezultat.close();
+            cout << endl << "Unesite naziv tima: " << endl;
+            getline(cin, unos);
+            cout << endl;
+            datotekaTimovi.open("Scores&Teams/Teams.txt", ios::out | ios::app);
+            datotekaTimovi << endl << unos << endl;
+            datotekaTimovi.close();
+            unos_player = true;
+        }
+        if (izbor == 3)
+        {
+            if(scores_player)
+            {
+                clear_screen();
+                cin.ignore();
+                string tim;
+                string ispis;
+                cout << "Koji je vas tim?" << endl;
+                datotekaTimovi.open("Scores&Teams/Teams.txt", ios::app | ios::in);
+                cout << "TIMOVI:" << endl;
+                while (getline(datotekaTimovi, ispis))
+                {
+                    cout << ispis << endl;
+                }
+                getline(cin, tim);
+                datotekaTimovi.close();
+                fstream datotekaRezultat("Scores&Teams/Score.bin", ios::binary | ios::out | ios::app);
+                datotekaRezultat.write((char *)&tim, sizeof(tim));
+                datotekaRezultat << money;
+                datotekaRezultat.close();
+            }
+            else
+            {
+                clear_screen();
+                cout << "Please,finish the game!" << endl;
+                Sleep(3000);
+            }
         }
         if (izbor == 4)
         {
-            cout << "izbor 4" << endl;
-            cout << "Jedan od natjecatelja bira kategoriju i iznos novaca za to pitanje." << endl
-                 << "Nakon postavljenog pitanja imate 15s da prvi stisnete svoju tipku i odaberete je li odgovor a,b ili c." << endl
-                 << "Osoba koja točno odgovori dobije iznos novaca i može birati sljedeću kategoriju i pitanje." << endl
-                 << "Nakon što odgovorite na neko pitanje to pitanje nestaje i više ga se ne može otvoriti." << endl
-                 << "Igra se dok sva pitanja na ploči nisu iskorištena odnosno odgovorena." << endl
-                 << "ZABAVITE SE!" << endl;
+            clear_screen();
+            cout << "The Player chooses the catagory and amount of money for which he wants to play." << endl
+                 << "If the player answers corectly he gets money and right to choose again." << endl
+                 << "When the player answers the question, question can't be answered again." << endl
+                 << "The player can play until all the questions arent answered or he can stop the game after every answer." << endl
+                 << "HAVE FUN!" << endl;
+            system("pause");
+            clear_screen();
         }
         if (izbor == 5)
         {
-            cout << "izbor 5" << endl;
             break;
         }
     }

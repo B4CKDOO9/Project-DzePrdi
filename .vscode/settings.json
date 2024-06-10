@@ -8,6 +8,9 @@
         "vector": "cpp",
         "xutility": "cpp",
         "initializer_list": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "fstream": "cpp",
+        "limits": "cpp",
+        "istream": "cpp"
     }
 }
