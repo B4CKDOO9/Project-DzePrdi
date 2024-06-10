@@ -253,6 +253,12 @@ void ispisivanje_logika_ploce()
                         clear_screen();
                         cout << "Congrats! You have won: " << polje_money[index_odabrana_cifra][index_odabrane_teme] << "$" << endl;
                         money = polje_money[index_odabrana_cifra][index_odabrane_teme];
+                        /*cout<<"Do you want to continue playing? Y/N ";
+                        if(answer==Y)
+                            continue;
+                        else{
+                            exit_break_point;
+                        }*/
                         Sleep(3000);
                         polje_money[index_odabrana_cifra][trazeni_index] = 0;
                         // dodati pridruzivanje para igracu
@@ -261,7 +267,7 @@ void ispisivanje_logika_ploce()
                     else
                     {
                         clear_screen();
-                        cout << "Unfortiunatly, your answer was wrong!" << endl;
+                        cout << "Unfortunately, your answer was wrong!" << endl;
                         Sleep(3000);
                         polje_money[index_odabrana_cifra][trazeni_index] = 0;
                         break;
