@@ -135,7 +135,7 @@ void ispisivanje_logika_ploce()
     while (1)
     {
 
-        if(brojac_odigranih_polja == 30)
+        if (brojac_odigranih_polja == 30)
         {
             break;
         }
@@ -159,7 +159,8 @@ void ispisivanje_logika_ploce()
             }
         }
 
-        cout << endl << endl;
+        cout << endl
+             << endl;
         cout << setw(30) << "200$ = 0" << setw(22) << "400$ = 1" << setw(22) << "600$ = 2" << setw(22) << "800$ = 3" << setw(22) << "1000$ = 4" << endl;
 
         string izbor_teme[1]; // velicina polja na 1 jer ce uvijek biti zapisan samo jedan podatak
@@ -375,17 +376,19 @@ int main()
                 cout << ispis << endl;
             }
             datotekaTimovi.close();
-            cout << endl << "Unesite naziv tima: " << endl;
+            cout << endl
+                 << "Unesite naziv tima: " << endl;
             getline(cin, unos);
             cout << endl;
             datotekaTimovi.open("Scores&Teams/Teams.txt", ios::out | ios::app);
-            datotekaTimovi << endl << unos << endl;
+            datotekaTimovi << endl
+                           << unos << endl;
             datotekaTimovi.close();
             unos_player = true;
         }
         if (izbor == 3)
         {
-            if(scores_player)
+            if (scores_player)
             {
                 clear_screen();
                 cin.ignore();
@@ -398,12 +401,26 @@ int main()
                 {
                     cout << ispis << endl;
                 }
+                cout << endl;
                 getline(cin, tim);
                 datotekaTimovi.close();
                 fstream datotekaRezultat("Scores&Teams/Score.bin", ios::binary | ios::out | ios::app);
                 datotekaRezultat.write((char *)&tim, sizeof(tim));
-                datotekaRezultat << money;
+                datotekaRezultat.write((char *)&money, sizeof(money));
                 datotekaRezultat.close();
+                clear_screen();
+                cout << "FINAL LEADERBOARD: " << endl;
+                datotekaRezultat.open("Scores&Teams/Score.bin", ios::binary | ios::in | ios::app);
+                while (datotekaRezultat.read((char *)&tim, sizeof(tim)))
+                {
+                    cout << tim << " " << money << "$" << endl;
+                }
+                datotekaRezultat.close();
+                /*datotekaRezultat.open("Scores&Teams/Score.bin", ios::binary | ios::in);
+                datotekaRezultat.read((char *)&tim, sizeof(tim));
+                datotekaRezultat.read((char *)&money, sizeof(money));
+                datotekaRezultat.close();¸
+                while (datotekaRezultat.read((char *)&tim, sizeof(tim)) && datotekaRezultat.read((char *)&money, sizeof(money)))*/
             }
             else
             {
@@ -418,7 +435,7 @@ int main()
             cout << "The Player chooses the catagory and amount of money for which he wants to play." << endl
                  << "If the player answers corectly he gets money and right to choose again." << endl
                  << "When the player answers the question, question can't be answered again." << endl
-                 << "The player can play until all the questions arent answered or he can stop the game after every answer." << endl
+                 << "The player can play until all the questions aren't answered or he can stop the game after every answer." << endl
                  << "HAVE FUN!" << endl;
             Sleep(10000);
             clear_screen();
