@@ -68,10 +68,17 @@ bool izbor_cifre_bool(int &izbor)
     return false;
 }
 
+/*struct Team
+{
+    string tim;
+    int money;
+};*/
+// struct Team timek;
+
 void ispisivanje_logika_ploce()
 {
     clear_screen();
-    // otvaranje temea za igru
+    // otvaranje tema za igru
 
     teme_za_igru.open("Q&A/Teme.txt", ios::in);
     string *teme_za_iguru_ran_polje = new string[7];
@@ -85,7 +92,7 @@ void ispisivanje_logika_ploce()
     }
     teme_za_igru.close();
 
-    // otvaranje dateke sa pathovima za pitanja
+    // otvaranje datoteke sa pathovima za pitanja
 
     datoteka_pitanja_trazilica.open("Q&A/PitanjaTrazilica.txt", ios::in);
     string *pitanja_otvaranje_dat = new string[7];
@@ -96,7 +103,7 @@ void ispisivanje_logika_ploce()
     }
     datoteka_pitanja_trazilica.close();
 
-    // otvaranje dateke sa paathovima za odgovore
+    // otvaranje datoteke sa paathovima za odgovore
 
     datoteka_odgovori_trazilica.open("Q&A/OdgovoriTrazilica.txt", ios::in);
     string *odgovori_otvaranje_dat = new string[7];
@@ -299,11 +306,6 @@ void ispisivanje_logika_ploce()
     }
 }
 
-struct
-{
-    string ekipa;
-
-} login;
 struct Rezultat
 {
     char Timovi[50];
@@ -392,30 +394,43 @@ int main()
             {
                 clear_screen();
                 cin.ignore();
-                string tim;
                 string ispis;
-                cout << "Koji je vas tim?" << endl;
+                string igracina;
+                cout << "Who are you?" << endl;
                 datotekaTimovi.open("Scores&Teams/Teams.txt", ios::app | ios::in);
-                cout << "TIMOVI:" << endl;
+                cout << "PLAYERS:" << endl;
                 while (getline(datotekaTimovi, ispis))
                 {
                     cout << ispis << endl;
                 }
                 cout << endl;
-                getline(cin, tim);
+                // getline(cin,timek.tim);
+                getline(cin, igracina);
                 datotekaTimovi.close();
                 fstream datotekaRezultat("Scores&Teams/Score.bin", ios::binary | ios::out | ios::app);
-                datotekaRezultat.write((char *)&tim, sizeof(tim));
+                // datotekaRezultat.write((char *)&timek, sizeof(timek));
+                // datotekaRezultat.write((char *)&timek.money, sizeof(timek.money));
+                datotekaRezultat.write((char *)&igracina, sizeof(igracina));
                 datotekaRezultat.write((char *)&money, sizeof(money));
                 datotekaRezultat.close();
                 clear_screen();
+
+                /*
+
                 cout << "FINAL LEADERBOARD: " << endl;
                 datotekaRezultat.open("Scores&Teams/Score.bin", ios::binary | ios::in | ios::app);
-                while (datotekaRezultat.read((char *)&tim, sizeof(tim)))
+                while (datotekaRezultat.read((char *)&igracina, sizeof(igracina)) && datotekaRezultat.read((char *)&money, sizeof(money)))
                 {
-                    cout << tim << " " << money << "$" << endl;
+                    cout << igracina << " " << money << endl;
                 }
-                datotekaRezultat.close();
+                datotekaRezultat.close();*/
+
+                /*datotekaRezultat.open("Scores&Teams/Score.bin", ios::binary | ios::in | ios::app);
+                datotekaRezultat.read((char *)&len, sizeof(len));
+                char *buffer = new char[len + 1];
+                datotekaRezultat.read(buffer, len);
+                cout << "Tim: " << tim << ", Novac: " << money << "$" << endl;*/
+
                 /*datotekaRezultat.open("Scores&Teams/Score.bin", ios::binary | ios::in);
                 datotekaRezultat.read((char *)&tim, sizeof(tim));
                 datotekaRezultat.read((char *)&money, sizeof(money));
@@ -429,12 +444,13 @@ int main()
                 Sleep(3000);
             }
         }
+
         if (izbor == 4)
         {
             clear_screen();
-            cout << "The Player chooses the catagory and amount of money for which he wants to play." << endl
-                 << "If the player answers corectly he gets money and right to choose again." << endl
-                 << "When the player answers the question, question can't be answered again." << endl
+            cout << "The Player chooses the category and amount of money for which he wants to play." << endl
+                 << "If the player answers corectly he gets the money and the right to choose another question." << endl
+                 << "When the player answers the question, that question can't be answered again." << endl
                  << "The player can play until all the questions aren't answered or he can stop the game after every answer." << endl
                  << "HAVE FUN!" << endl;
             Sleep(10000);

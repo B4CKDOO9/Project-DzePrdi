@@ -1,6 +1,6 @@
 
-smrdim
+prvi
 
-pls
+drugi
 
-pliz
+treci
