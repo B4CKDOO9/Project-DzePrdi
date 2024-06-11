@@ -364,76 +364,148 @@ int main()
             else
             {
                 clear_screen();
-                cout << "You have finished the game or you havent entered the player name!" << endl;
+                cout << "You have finished the game or you haven't entered the player name!" << endl;
                 Sleep(3000);
             }
         }
         if (izbor == 2)
         {
-            if(!unos_player)
+            while(1)
             {
-                clear_screen();
-                cin.ignore();
-                string ispis, unos;
-                datotekaTimovi.open("Scores&Teams/Teams.txt", ios::in);
-                cout << "Former players: " << endl;
-                while (getline(datotekaTimovi, ispis))
+                if (!unos_player)
                 {
-                    cout << ispis << endl;
+                    clear_screen();
+                    cin.ignore();
+                    string ispis;
+                    string unos;
+                    string provjera_polja[100];
+                    bool auth_igraca = false;
+                    datotekaTimovi.open("Scores&Teams/Teams.txt",ios::in | ios::app);
+                    datotekaTimovi.clear();
+                    datotekaTimovi.seekg(0, ios::beg);
+                    cout << "Former players: " << endl;
+                    while (getline(datotekaTimovi, ispis))
+                    {
+                        cout << ispis << endl;
+                    }
+                    cout << "Enter the player name: " << endl;
+                    getline(cin, unos);
+                    datotekaTimovi.clear();
+                    datotekaTimovi.seekg(0, ios::beg);
+                    for (int i = 0; i < 100; i++)
+                    {
+                        getline(datotekaTimovi, provjera_polja[i]);
+                        rtrim(provjera_polja[i]);
+                        if (unos == provjera_polja[i])
+                        {
+                            auth_igraca = true;
+                            break;
+                        }
+                    }
+                    datotekaTimovi.close();
+                    if (!auth_igraca)
+                    {
+                        datotekaTimovi.open("Scores&Teams/Teams.txt", ios::out | ios::app);
+                        datotekaTimovi << unos << endl;
+                        datotekaTimovi.close();
+                        unos_player = true;
+                        break;
+                    }
+                    else
+                    {
+                        clear_screen();
+                        cout << "This player already exists!" << endl;
+                        Sleep(3000);
+                        break;
+                    }
                 }
-                datotekaTimovi.close();
-                cout << endl << "Enter the player name: " << endl;
-                getline(cin, unos);
-                cout << endl;
-                datotekaTimovi.open("Scores&Teams/Teams.txt", ios::out | ios::app);
-                datotekaTimovi << unos << endl;
-                datotekaTimovi.close();
-                broj_igraca++;
-                unos_player = true;
-            }
                 else
                 {
-                        clear_screen();
-                        cout << "You have already entered your player name!" << endl;
-                        Sleep(3000);
+                    clear_screen();
+                    cout << "You have already entered your player name!" << endl;
+                    Sleep(3000);
+                    break;
                 }
+            }
         }
         if (izbor == 3)
         {
-            if (scores_player)
+            while(1)
             {
-                clear_screen();
-                cin.ignore();
-                string ispis;
-                string igracina;
-                cout << "Who do you want to assign the money?" << endl;
-                datotekaTimovi.open("Scores&Teams/Teams.txt", ios::app | ios::in);
-                cout << "PLAYERS:" << endl;
-                while (getline(datotekaTimovi, ispis))
+                if (scores_player)
                 {
-                    cout << ispis << endl;
+                    clear_screen();
+                    cin.ignore();
+                    string ispis;
+                    string igracina;
+                    string provjera_polja[100];
+                    bool auth_igraca = false;
+                    datotekaTimovi.open("Scores&Teams/Teams.txt",ios::app | ios::in);
+                    datotekaTimovi.clear();
+                    datotekaTimovi.seekg(0, ios::beg);
+                    cout << "PLAYERS:" << endl;
+                    while (getline(datotekaTimovi, ispis))
+                    {
+                        cout << ispis << endl;
+                    }
+                    cout << endl;
+                    cout << "Who do you want to assign the money?" << endl;
+                    datotekaTimovi.clear();
+                    datotekaTimovi.seekg(0, ios::beg);
+                    getline(cin, igracina);
+
+                    for (int i = 0; i < 100; i++)
+                    {
+                        getline(datotekaTimovi,provjera_polja[i]);
+                        rtrim(provjera_polja[i]);
+                        if(igracina == provjera_polja[i])
+                        {
+                            auth_igraca = true;
+                            break;
+                        }
+                    }
+                    if(auth_igraca)
+                    {
+                        datotekaTimovi.close();
+                        fstream datotekaRezultat("Scores&Teams/Score.bin", ios::binary | ios::out | ios::app);
+                        datotekaRezultat.write((char *)&igracina, sizeof(igracina));
+                        datotekaRezultat.write((char *)&money, sizeof(money));
+                        if (datotekaRezultat)
+                        {
+                            clear_screen();
+                            cout << "Data was sucesfully stored!" << endl;
+                            cout << "Press Enter to continue. . . ";
+                            getchar();
+                            scores_player = false;
+                            break;
+                        }
+                        else
+                        {
+                            clear_screen();
+                            cout << "Sorry, file was cOrUpTed :/" << endl;
+                            cout << "Press Enter to continue. . . ";
+                            getchar();
+                            break;
+                        }
+                        clear_screen();
+                        datotekaRezultat.close();
+                    }
+                    else
+                    {
+                        clear_screen();
+                        cout << "This player doesn't exist!" << endl;
+                        Sleep(3000);
+                        break;
+                    }
                 }
-                cout << endl;
-                getline(cin, igracina);
-                datotekaTimovi.close();
-                fstream datotekaRezultat("Scores&Teams/Score.bin", ios::binary | ios::out | ios::app);
-                datotekaRezultat.write((char *)&igracina, sizeof(igracina));
-                datotekaRezultat.write((char *)&money, sizeof(money));
-                if(datotekaRezultat)
+                else
                 {
-                    cout << "Data was sucesfully stored!" << endl;
-                    cout << "Press Enter to continue. . . ";
-                    getchar();
+                    clear_screen();
+                    cout << "You have finished the game, or already enetered the score!" << endl;
+                    Sleep(3000);
                 }
-                clear_screen();
-                datotekaRezultat.close();
             }
-            else
-            {
-                clear_screen();
-                cout << "Please, finish the game!" << endl;
-                Sleep(3000);
-            }
+            
         }
 
         if (izbor == 4)
