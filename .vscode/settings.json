@@ -12,6 +12,8 @@
         "fstream": "cpp",
         "limits": "cpp",
         "istream": "cpp",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "xlocmes": "cpp",
+        "ostream": "cpp"
     }
 }

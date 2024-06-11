@@ -318,7 +318,7 @@ int main()
 {
     srand(time(NULL));
     string upis_timova;
-    int broj_timova = 0;
+    int broj_igraca = 0;
     bool unos_player = false;
     bool scores_player = false;
 
@@ -374,23 +374,23 @@ int main()
             {
                 clear_screen();
                 cin.ignore();
-                string ispis_timova;
+                string ispis, unos;
                 datotekaTimovi.open("Scores&Teams/Teams.txt", ios::in);
-                cout << "Names of past players" << endl;
-                while(getline(datotekaTimovi,ispis_timova))
+                cout << "Former players: " << endl;
+                while (getline(datotekaTimovi, ispis))
                 {
-                    cout << ispis_timova << endl;
+                    cout << ispis << endl;
                 }
                 datotekaTimovi.close();
+                cout << endl << "Enter the player name: " << endl;
+                getline(cin, unos);
                 cout << endl;
-                datotekaTimovi.open("Scores&Teams/Teams.txt",ios::app | ios::out);
-                cout << "Enter the name of the player:" << endl;
-                getline(cin, upis_timova);
-                broj_timova++;
-                datotekaTimovi << upis_timova << endl;
+                datotekaTimovi.open("Scores&Teams/Teams.txt", ios::out | ios::app);
+                datotekaTimovi << unos << endl;
                 datotekaTimovi.close();
+                broj_igraca++;
                 unos_player = true;
-                }
+            }
                 else
                 {
                         clear_screen();
@@ -400,39 +400,40 @@ int main()
         }
         if (izbor == 3)
         {
-            //if (scores_player)
-            //{
-            datotekaRezultat.open("Scores&Teams/Score.bin", std::ios::binary | std::ios::out | std::ios::app);
-            size_t size = upis_timova.size();
-            datotekaRezultat.write(reinterpret_cast<char *>(&size), sizeof(size));
-            datotekaRezultat.write(upis_timova.c_str(), size);
-            datotekaRezultat.write(reinterpret_cast<char *>(&money), sizeof(money));
-            datotekaRezultat.close();
-
-            std::ifstream datotekaUlaz;
-            datotekaUlaz.open("Scores&Teams/Score.bin", std::ios::binary | std::ios::in);
-            std::string ispis_timova_bin;
-            int ispis_money_bin;
-            while (datotekaUlaz.read(reinterpret_cast<char *>(&size), sizeof(size)))
+            if (scores_player)
             {
-                ispis_timova_bin.resize(size);
-                datotekaUlaz.read(&ispis_timova_bin[0], size);
-                datotekaUlaz.read(reinterpret_cast<char *>(&ispis_money_bin), sizeof(ispis_money_bin));
-                for (int i = 0; i < broj_timova; i++)
+                clear_screen();
+                cin.ignore();
+                string ispis;
+                string igracina;
+                cout << "Who do you want to assign the money?" << endl;
+                datotekaTimovi.open("Scores&Teams/Teams.txt", ios::app | ios::in);
+                cout << "PLAYERS:" << endl;
+                while (getline(datotekaTimovi, ispis))
                 {
-                    std::cout << ispis_timova_bin << " " << ispis_money_bin << std::endl;
+                    cout << ispis << endl;
                 }
+                cout << endl;
+                getline(cin, igracina);
+                datotekaTimovi.close();
+                fstream datotekaRezultat("Scores&Teams/Score.bin", ios::binary | ios::out | ios::app);
+                datotekaRezultat.write((char *)&igracina, sizeof(igracina));
+                datotekaRezultat.write((char *)&money, sizeof(money));
+                if(datotekaRezultat)
+                {
+                    cout << "Data was sucesfully stored!" << endl;
+                    cout << "Press Enter to continue. . . ";
+                    getchar();
+                }
+                clear_screen();
+                datotekaRezultat.close();
             }
-            datotekaUlaz.close();
-
-            Sleep(10000);
-            //}
-            /*else
+            else
             {
                 clear_screen();
                 cout << "Please, finish the game!" << endl;
                 Sleep(3000);
-            }*/
+            }
         }
 
         if (izbor == 4)
