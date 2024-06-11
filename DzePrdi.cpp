@@ -156,7 +156,7 @@ void ispisivanje_logika_ploce()
 
         for (int i = 0; i < br_Tema; i++)
         {
-            cout << setw(22) << teme_za_iguru_ran_polje[index_tema[i]]; // resolve genrator printa samo jedno onak polje jebati breg mater
+            cout << setw(22) << teme_za_iguru_ran_polje[index_tema[i]]; // resolve generator printa samo jedno onak polje
         }
 
         for (int i = 0; i < br_Retka; i++)
@@ -277,7 +277,7 @@ void ispisivanje_logika_ploce()
                         polje_money[index_odabrana_cifra][trazeni_index] = 0;
                         Sleep(3000);
                         clear_screen();
-                        cout << "Do you wish to contonue with the game? 1/0" << endl;
+                        cout << "Do you wish to continue with the game? 1/0" << endl;
                         cin >> odgovor_da_ne;
                         cin.ignore();
                         break;
@@ -289,7 +289,7 @@ void ispisivanje_logika_ploce()
                         polje_money[index_odabrana_cifra][trazeni_index] = 0;
                         Sleep(3000);
                         clear_screen();
-                        cout << "Do you wish to contonue with the game? 1/0" << endl;
+                        cout << "Do you wish to continue with the game? 1/0" << endl;
                         cin >> odgovor_da_ne;
                         cin.ignore();
                         break;
@@ -501,8 +501,9 @@ int main()
                 else
                 {
                     clear_screen();
-                    cout << "You have finished the game, or already enetered the score!" << endl;
+                    cout << "You have finished the game, or already entered the score!" << endl;
                     Sleep(3000);
+                    break;
                 }
             }
             
@@ -512,7 +513,7 @@ int main()
         {
             clear_screen();
             cout << "The Player chooses the category and amount of money for which he wants to play." << endl
-                 << "If the player answers corectly he gets the money and the right to choose another question." << endl
+                 << "If the player answers correctly he gets the money and the right to choose another question." << endl
                  << "When the player answers the question, that question can't be answered again." << endl
                  << "The player can play until all the questions aren't answered or he can stop the game after every answer." << endl
                  << "HAVE FUN!" << endl;
