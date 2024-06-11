@@ -17,12 +17,14 @@ using namespace std;
 
 fstream teme_za_igru;
 fstream datotekaTimovi;
+ofstream datotekaRezultat;
 fstream datoteka_pitanja_trazilica;
 fstream datoteka_odgovori_trazilica;
 fstream odabrana_tema_pitanja_stream;
 fstream odabrana_tema_odgovori_stream;
 
 int money;
+bool game_finished = false;
 
 void clear_screen() // https://stackoverflow.com/questions/1348563/clearing-output-of-a-terminal-program-linux-c-c
 {
@@ -272,8 +274,8 @@ void ispisivanje_logika_ploce()
                         clear_screen();
                         cout << "Congrats! You have won: " << polje_money[index_odabrana_cifra][index_odabrane_teme] << "$" << endl;
                         money += polje_money[index_odabrana_cifra][index_odabrane_teme];
-                        Sleep(3000);
                         polje_money[index_odabrana_cifra][trazeni_index] = 0;
+                        Sleep(3000);
                         clear_screen();
                         cout << "Do you wish to contonue with the game? 1/0" << endl;
                         cin >> odgovor_da_ne;
@@ -284,8 +286,8 @@ void ispisivanje_logika_ploce()
                     {
                         clear_screen();
                         cout << "Unfortunately, your answer was wrong!" << endl;
-                        Sleep(3000);
                         polje_money[index_odabrana_cifra][trazeni_index] = 0;
+                        Sleep(3000);
                         clear_screen();
                         cout << "Do you wish to contonue with the game? 1/0" << endl;
                         cin >> odgovor_da_ne;
@@ -309,15 +311,14 @@ void ispisivanje_logika_ploce()
 struct Rezultat
 {
     char Timovi[50];
-    float Rez;
+    int  money;
 };
-bool cmp(Rezultat &a, Rezultat &b)
-{
-    return a.Rez > b.Rez;
-}
+
 int main()
 {
     srand(time(NULL));
+    string upis_timova;
+    int broj_timova = 0;
     bool unos_player = false;
     bool scores_player = false;
 
@@ -337,7 +338,7 @@ int main()
         cout << endl;
         cout << "Menu" << endl;
         cout << "1. Start game!" << endl;
-        cout << "2. Teams" << endl;
+        cout << "2. Players" << endl;
         cout << "3. Scores" << endl;
         cout << "4. Rules!" << endl;
         cout << "5. Exit" << endl;
@@ -353,96 +354,85 @@ int main()
         }
         if (izbor == 1)
         {
-            if (unos_player)
+            if (unos_player && !game_finished)
             {
                 cin.ignore();
                 ispisivanje_logika_ploce();
                 scores_player = true;
+                game_finished = true;
             }
             else
             {
                 clear_screen();
-                cout << "Please, enter the name of the player in 2. Teams" << endl;
+                cout << "You have finished the game or you havent entered the player name!" << endl;
                 Sleep(3000);
             }
         }
         if (izbor == 2)
         {
-            clear_screen();
-            cin.ignore();
-            string ispis, unos;
-            datotekaTimovi.open("Scores&Teams/Teams.txt", ios::in);
-            cout << "Prijasnji timovi: " << endl;
-            while (getline(datotekaTimovi, ispis))
-            {
-                cout << ispis << endl;
-            }
-            datotekaTimovi.close();
-            cout << endl
-                 << "Unesite naziv tima: " << endl;
-            getline(cin, unos);
-            cout << endl;
-            datotekaTimovi.open("Scores&Teams/Teams.txt", ios::out | ios::app);
-            datotekaTimovi << endl
-                           << unos << endl;
-            datotekaTimovi.close();
-            unos_player = true;
-        }
-        if (izbor == 3)
-        {
-            if (scores_player)
+            if(!unos_player)
             {
                 clear_screen();
                 cin.ignore();
-                string ispis;
-                string igracina;
-                cout << "Who are you?" << endl;
-                datotekaTimovi.open("Scores&Teams/Teams.txt", ios::app | ios::in);
-                cout << "PLAYERS:" << endl;
-                while (getline(datotekaTimovi, ispis))
+                string ispis_timova;
+                datotekaTimovi.open("Scores&Teams/Teams.txt", ios::in);
+                cout << "Names of past players" << endl;
+                while(getline(datotekaTimovi,ispis_timova))
                 {
-                    cout << ispis << endl;
+                    cout << ispis_timova << endl;
                 }
-                cout << endl;
-                // getline(cin,timek.tim);
-                getline(cin, igracina);
                 datotekaTimovi.close();
-                fstream datotekaRezultat("Scores&Teams/Score.bin", ios::binary | ios::out | ios::app);
-                // datotekaRezultat.write((char *)&timek, sizeof(timek));
-                // datotekaRezultat.write((char *)&timek.money, sizeof(timek.money));
-                datotekaRezultat.write((char *)&igracina, sizeof(igracina));
-                datotekaRezultat.write((char *)&money, sizeof(money));
-                datotekaRezultat.close();
-                clear_screen();
-
-                /*
-
-                cout << "FINAL LEADERBOARD: " << endl;
-                datotekaRezultat.open("Scores&Teams/Score.bin", ios::binary | ios::in | ios::app);
-                while (datotekaRezultat.read((char *)&igracina, sizeof(igracina)) && datotekaRezultat.read((char *)&money, sizeof(money)))
-                {
-                    cout << igracina << " " << money << endl;
+                cout << endl;
+                datotekaTimovi.open("Scores&Teams/Teams.txt",ios::app | ios::out);
+                cout << "Enter the name of the player:" << endl;
+                getline(cin, upis_timova);
+                broj_timova++;
+                datotekaTimovi << upis_timova << endl;
+                datotekaTimovi.close();
+                unos_player = true;
                 }
-                datotekaRezultat.close();*/
+                else
+                {
+                        clear_screen();
+                        cout << "You have already entered your player name!" << endl;
+                        Sleep(3000);
+                }
+        }
+        if (izbor == 3)
+        {
+            //if (scores_player)
+            //{
+            datotekaRezultat.open("Scores&Teams/Score.bin", std::ios::binary | std::ios::out | std::ios::app);
+            size_t size = upis_timova.size();
+            datotekaRezultat.write(reinterpret_cast<char *>(&size), sizeof(size));
+            datotekaRezultat.write(upis_timova.c_str(), size);
+            datotekaRezultat.write(reinterpret_cast<char *>(&money), sizeof(money));
+            datotekaRezultat.close();
 
-                /*datotekaRezultat.open("Scores&Teams/Score.bin", ios::binary | ios::in | ios::app);
-                datotekaRezultat.read((char *)&len, sizeof(len));
-                char *buffer = new char[len + 1];
-                datotekaRezultat.read(buffer, len);
-                cout << "Tim: " << tim << ", Novac: " << money << "$" << endl;*/
-
-                /*datotekaRezultat.open("Scores&Teams/Score.bin", ios::binary | ios::in);
-                datotekaRezultat.read((char *)&tim, sizeof(tim));
-                datotekaRezultat.read((char *)&money, sizeof(money));
-                datotekaRezultat.close();¸
-                while (datotekaRezultat.read((char *)&tim, sizeof(tim)) && datotekaRezultat.read((char *)&money, sizeof(money)))*/
+            std::ifstream datotekaUlaz;
+            datotekaUlaz.open("Scores&Teams/Score.bin", std::ios::binary | std::ios::in);
+            std::string ispis_timova_bin;
+            int ispis_money_bin;
+            while (datotekaUlaz.read(reinterpret_cast<char *>(&size), sizeof(size)))
+            {
+                ispis_timova_bin.resize(size);
+                datotekaUlaz.read(&ispis_timova_bin[0], size);
+                datotekaUlaz.read(reinterpret_cast<char *>(&ispis_money_bin), sizeof(ispis_money_bin));
+                for (int i = 0; i < broj_timova; i++)
+                {
+                    std::cout << ispis_timova_bin << " " << ispis_money_bin << std::endl;
+                }
             }
-            else
+            datotekaUlaz.close();
+
+            Sleep(10000);
+            //}
+            /*else
             {
                 clear_screen();
                 cout << "Please, finish the game!" << endl;
                 Sleep(3000);
-            }
+            }*/
         }
 
         if (izbor == 4)
@@ -453,8 +443,10 @@ int main()
                  << "When the player answers the question, that question can't be answered again." << endl
                  << "The player can play until all the questions aren't answered or he can stop the game after every answer." << endl
                  << "HAVE FUN!" << endl;
-            Sleep(10000);
-            clear_screen();
+            cout << "Press Enter to continue. . . ";
+            cin.ignore();
+            getchar();
+
         }
         if (izbor == 5)
         {
