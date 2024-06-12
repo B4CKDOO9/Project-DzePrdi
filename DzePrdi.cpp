@@ -153,7 +153,6 @@ void ispisivanje_logika_ploce()
         {
             break;
         }
-
         for (int i = 0; i < br_Tema; i++)
         {
             cout << setw(22) << teme_za_iguru_ran_polje[index_tema[i]]; // resolve generator printa samo jedno onak polje
@@ -274,6 +273,7 @@ void ispisivanje_logika_ploce()
                         clear_screen();
                         cout << "Congrats! You have won: " << polje_money[index_odabrana_cifra][index_odabrane_teme] << "$" << endl;
                         money += polje_money[index_odabrana_cifra][index_odabrane_teme];
+                        cout << "Balance: " << money << "$" << endl;
                         polje_money[index_odabrana_cifra][trazeni_index] = 0;
                         Sleep(3000);
                         clear_screen();
